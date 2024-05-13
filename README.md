@@ -41,76 +41,16 @@ TODO 2;
 #endif  
 =>giải thích: Ngược lại so với #ifdef. Nếu macro chưa được xác định, thì LÀM_1 được chọn để xây dựng. Nếu đã được xác định, thì LÀM_2 được chọn để xây dựng.  
 
-Ví dụ mã:  
-```
-#include <stdio.h>      
-typedef enum
-{
-    GPIOA,
-    GPIOB,
-    GPIOC
-} Ports;
-
-typedef enum{
-    PIN1,
-    PIN2,
-    PIN3,
-    PIN4,
-    PIN5,
-    PIN6,
-    PIN7,
-} Pins;
-
-typedef enum
-{
-    HIGH,
-    LOW
-} Status;
-
-#define STM32 0
-#define ATMEGA 
-#define PIC 2
-
-#define MCU STM32
-
-#if MCU == STM32
-void daoTrangThaiDen(Ports port, Pins pin, Status status)
-{
-    if (status == HIGH)
-    {
-        HAL_GPIO_WritePin(port, pin, LOW);
-    }
-    else
-    {
-        HAL_GPIO_WritePin(port, pin, HIGH);
-    }  
-}
-
-#elif MCU == ATMEGA 
-void daoTrangThaiDen(Pins pin, Status status)
-{
-    if (status == HIGH)
-    {
-        digitalWrite(pin, LOW);
-    }
-    else
-    {
-        digitalWrite(pin, HIGH);
-    }  
-}
-
-#endif
-void delay(int ms){}
-
-int main()
-{
-    while(1)
-    {
-        daoTrangThaiDen(GPIOA,13,HIGH);
-        delay(1000);
-    }
-
-return 0;
-} 
-```
-
+# **LESSON 2: STDARG AND ASSERT**  
+**A. STDARG**  
+Stdarg.h trong ngôn ngữ lập trình C cho phép các hàm chấp nhận một số lượng biến số không cố định. Nó cung cấp các macro và một loại (va_list) để truy cập và điều chỉnh các đối số này.  
+Các Tính Năng Chính của stdarg.h  
+-va_list: Một loại dữ liệu đại diện cho một danh sách các đối số.  
+-va_start(ap, last_named_arg): Khởi tạo một đối tượng va_list để trỏ tới đối số không có tên đầu tiên sau last_named_arg.  
+-va_arg(ap, type): Lấy đối số tiếp theo từ va_list và chuyển đổi nó thành kiểu đã chỉ định.  
+-va_end(ap): Dọn dẹp đối tượng va_list.  
+**B. ASSERT**  
+-Các lệnh assert được sử dụng trong các chương trình nếu nhà phát triển muốn khẳng định hoặc đưa ra giả định.  
+-Nó lấy một biểu thức làm tham số trong hàm. Biểu thức được đánh giá.  
+-Nếu giá trị trả về sau khi đánh giá biểu thức là 0 hoặc FALSE, nó trả về biểu thức cùng với tên tệp và dòng thực thi như một lỗi.  
+-Nếu có lỗi xảy ra, chương trình gọi hàm abort(). Hàm assert không làm gì nếu biểu thức được đánh giá là TRUE.  
