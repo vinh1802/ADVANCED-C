@@ -241,5 +241,120 @@ int main() {
     return 0;
 }
 ```
+# **LESSON 4: MEMORY LAYOUT**  
+**A. Introduction and Concept**  
+Bộ nhớ chương trình được chia thành 5 phần chính: (thứ tự từ địa chỉ thấp đến địa chỉ cao):  
+-Text: Khu vực mã và hằng số. Khu vực nhớ Text được quản lý bởi hệ điều hành, các đơn vị khác không thể can thiệp trực tiếp vào phân vùng này (chỉ đọc).  
+-BSS: Khu vực phân bổ cục bộ, bao gồm các biến: được khai báo dưới dạng tĩnh, biến toàn cục nhưng không có giá trị khởi tạo.  
+-Data: Tương tự như khu vực BSS, nhưng được sử dụng để lưu trữ các biến có giá trị khởi tạo ban đầu.  
+-HEAP: Khu vực cấp phát động. Được sử dụng để cấp phát bộ nhớ thông qua các kỹ thuật cấp phát bộ nhớ động (ví dụ: sử dụng các hàm malloc, calloc trong C hoặc sử dụng new trong C++).  
+-STACK: Khu vực ngăn xếp. (chứa các đối tượng cục bộ).  
+Lưu ý: các khu vực BSS và Data trong khu vực TEXT có kích thước cố định trong quá trình hoạt động của chương trình. Các khu vực HEAP và STACK có kích thước biến đổi, có thể mở rộng trong quá trình hoạt động của chương trình.  
+![image](https://github.com/vinh1802/ADVANCED-C/assets/168539077/640a0387-3db7-4b87-9a81-3f77f142a6eb)  
+
+# **LESSON 7: BITMASKING**  
+**A. Introduction**  
+Bitmasking là một kỹ thuật trong lập trình máy tính, liên quan đến việc thực hiện các phép toán bitwise trên các bit của các số nguyên. Kỹ thuật này thường được sử dụng để kiểm tra, thiết lập hoặc xóa các bit cụ thể trong một số nguyên, đồng thời giữ nguyên các bit khác.  
+Một bitmask là một chuỗi các bit, trong đó mỗi bit đại diện cho một trạng thái hoặc một cờ. Bằng cách sử dụng bitmask, chúng ta có thể áp dụng các phép toán bitwise để kiểm tra hoặc thiết lập các bit cụ thể trong một số nguyên mà không ảnh hưởng đến các bit khác. Điều này thường được sử dụng để thao tác với các cờ, hoặc kiểm tra và thiết lập các thuộc tính hoặc tùy chọn trong các biến nguyên.  
+6 toán tử bitwise trong C  
+& (Bitwise AND Operator)  
+| (Bitwise OR Operator)  
+^ (Bitwise XOR Operator)  
+~ (Bitwise NOT Operator)  
+<< (Left Shift Operator)  
+(Right Shift Operator) >>     
+**B. Bitmask Techniques**  
+**1.Đảo ngược một bit bằng phép NOT bitwise**  
+Sử dụng để thực hiện phép NOT bitwise trên mỗi bit của một số. Kết quả là số ngược của số đó.  
+cú pháp
+```
+number = ~ number
+```  
+ví dụ  
+```  
+#include <stdio.h> 
+int main() 
+{ 
+
+    int x = 1; 
+
+    printf("Ans: %d", ~x); 
+
+    return 0; 
+}
+```  
+Output  
+```  
+Ans: -2
+```  
+**2.Set bit**  
+Chúng ta lấy số nguyên 1 và sử dụng toán tử dịch trái, dịch biểu diễn nhị phân của 1 đi n vị trí, trong đó (n+1) là vị trí của bit mà chúng ta muốn thiết lập. Sau đó, sử dụng toán tử OR bitwise, chúng ta biến bit thứ (n+1) của số đã cho thành 1.  
+cú pháp  
+```  
+number | (1 << bit_position_to_set)
+```  
+ví dụ  
+```  
+#include <stdio.h> 
+int main() 
+{ 
+
+    int x = 13; 
+
+    printf("Ans: %d", 13 | (1 << 5)); 
+
+    return 0; 
+}
+```  
+output  
+```  
+Ans: 45
+```  
+**3.Xoá bit**  
+Chúng ta lại lấy số nguyên 1 và dịch nó đến vị trí đã chỉ định. Sau đó, chúng ta thực hiện phép NOT trên điều này để chuyển đổi nó thành 0 và các bit khác của giá trị (1 << n) thành 1. Sau đó, chúng ta thực hiện phép AND để xóa bit đã chỉ định và thu được kết quả.  
+cú pháp  
+```  
+number & ~(1 << bit_position_to_clear)
+```  
+ví dụ  
+```  
+#include<stdio.h> 
+int main() 
+{ 
+    int x = 13; 
+    
+    printf("Ans: %d", 13 & ~(1 << 2) ); 
+    
+    return 0; 
+}
+```  
+output  
+```  
+Ans: 9
+```  
+**4.Lật bit**  
+Lật một bit cụ thể, nghĩa là nếu bit đó là 0 thì chuyển nó thành 1 và ngược lại. Hoạt động này yêu cầu sử dụng toán tử XOR bitwise (^) cùng với toán tử dịch trái (<<).  
+cú pháp  
+```  
+number ^ (1 << bit_position_to_flip)
+```  
+ví dụ  
+```  
+#include<stdio.h>
+
+int main() 
+{ 
+    int x = 13; 
+    
+    printf("Ans: %d", 13 ^ (1 << 3) ); 
+    
+    return 0; 
+}
+```  
+output  
+```  
+Ans: 5
+```  
+
 
 
