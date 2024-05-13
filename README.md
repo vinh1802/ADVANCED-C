@@ -54,3 +54,192 @@ Các Tính Năng Chính của stdarg.h
 -Nó lấy một biểu thức làm tham số trong hàm. Biểu thức được đánh giá.  
 -Nếu giá trị trả về sau khi đánh giá biểu thức là 0 hoặc FALSE, nó trả về biểu thức cùng với tên tệp và dòng thực thi như một lỗi.  
 -Nếu có lỗi xảy ra, chương trình gọi hàm abort(). Hàm assert không làm gì nếu biểu thức được đánh giá là TRUE.  
+# **LESSON 3: POINTER**  
+**A. Pointer**  
+con trỏ là một biến chứa địa chỉ bộ nhớ của một biến khác. Việc sử dụng con trỏ giúp chúng ta thực hiện các thao tác trên bộ nhớ một cách linh hoạt hơn.  
+khai báo  
+```
+int *ptr;  // a pointer to int type  
+char *ptr_char;  // a pointer to char type  
+float *ptr_float;  // a pointer to float type
+```     
+ví dụ  
+```
+int x = 5;
+int *ptr_x = &x;  // ptr_x now contains address of x
+int y = *ptr_x;  // y equals to the value of x
+Kích thước của con trỏ phụ thuộc vào kiến ​​trúc máy tính và trình biên dịch.
+int main() 
+{
+    int *ptr;
+    printf("Size of pointer: %d bytes\n", sizeof(ptr));
+    return 0;
+}
+```   
+**B. Void Pointer**   
+Con trỏ void thường được sử dụng để trỏ tới bất kỳ địa chỉ nào mà không cần biết kiểu dữ liệu của giá trị tại địa chỉ đó.
+khai báo  
+```
+void *ptr_void;
+```  
+ví dụ  
+```  
+#include <stdio.h>
+int main() {
+    int num = 10;
+    float f_num = 3.14;
+    char ch = 'A';
+
+    // Declare a void pointer
+    void *ptr;
+
+    // Assign the address of variable num to the void pointer
+    ptr = &num;
+    printf("Value of num: %d\n", *(int*)ptr);
+
+    // Assign the address of variable f_num to the void pointer
+    ptr = &f_num;
+    printf("Value of f_num: %.2f\n", *(float*)ptr);
+
+    // Assign the address of variable ch to the void pointer
+    ptr = &ch;
+    printf("Value of ch: %c\n", *(char*)ptr);
+
+    return 0;
+}
+```
+**C. Function Pointer**  
+Con trỏ hàm là một biến mà chứa địa chỉ của một hàm. Nó trỏ tới vùng bộ nhớ chứa mã máy của hàm được định nghĩa trong chương trình.  
+khai báo  
+``` 
+<return_type> (*<name_of_pointer>)( <data_type_of_parameters> );
+``` 
+ví dụ  
+```  
+#include <stdio.h>
+// Define two functions
+int add(int a, int b) {
+    return a + b;
+}
+
+int subtract(int a, int b) {
+    return a - b;
+}
+
+int main() {
+    // Declare a function pointer variable
+    int (*operation)(int, int);
+
+    // Assign the address of the add function to the function pointer
+    operation = &add;
+    printf("Result of addition: %d\n", operation(5, 3)); // This will call add(5, 3)
+
+    // Assign the address of the subtract function to the function pointer
+    operation = &subtract;
+    printf("Result of subtraction: %d\n", operation(5, 3)); // This will call subtract(5, 3)
+
+    return 0;
+}
+```  
+**D. Pointer to Constant**  
+Con trỏ tới hằng số (pointer to constant) là một loại con trỏ trong ngôn ngữ lập trình C/C++ mà chỉ cho phép trỏ đến một hằng số và không thể thay đổi giá trị của hằng số đó thông qua con trỏ. Điều này có nghĩa là con trỏ chỉ có thể trỏ đến địa chỉ của một hằng số, nhưng không thể sửa đổi giá trị của hằng số đó thông qua con trỏ.  
+Trong trường hợp này, khi con trỏ được khai báo là một con trỏ tới hằng số, bạn không thể sử dụng con trỏ đó để thay đổi giá trị của hằng số mà nó trỏ đến, tuy nhiên, giá trị của hằng số đó vẫn có thể thay đổi thông qua các phương thức khác.  
+khai báo  
+```  
+int const *ptr_const; 
+const int *ptr_const;
+```  
+ví dụ  
+```  
+#include <stdio.h>
+int main() {
+    // Define a constant variable
+    const int num = 10;
+
+    // Declare a pointer to a constant integer
+    const int *ptr;
+
+    // Assign the address of the constant variable to the pointer
+    ptr = &num;
+
+    // Try to change the value through the pointer (This will result in a compilation error)
+    // *ptr = 20; // This line will cause a compilation error
+
+    // Print the value of the constant variable using the pointer
+    printf("Value of num: %d\n", *ptr);
+
+    return 0;
+}
+```  
+**E. Constant Pointer**  
+Một con trỏ hằng (constant pointer) là một con trỏ trong ngôn ngữ lập trình C/C++ mà không thể thay đổi địa chỉ mà nó trỏ đến sau khi đã được khởi tạo. Điều này có nghĩa là một khi con trỏ đã được gán một địa chỉ cụ thể, thì không thể thay đổi địa chỉ đó để trỏ đến một vùng nhớ khác.  
+khai báo  
+```  
+int *const const_ptr = &value;
+```  
+ví dụ  
+```  
+#include <stdio.h>
+
+int main() {
+    int num1 = 10, num2 = 20;
+    int *const ptr = &num1;  // Constant pointer to integer
+
+    printf("Value of num1: %d\n", *ptr); // Output: 10
+
+    // Attempt to change the address pointed by the constant pointer
+    // ptr = &num2; // This line will result in a compilation error
+
+    // Change the value at the address pointed by the constant pointer
+    *ptr = 30;
+    printf("Value of num1 after modification: %d\n", *ptr); // Output: 30
+
+    return 0;
+}
+```  
+**F. Pointer to Pointer**  
+Con trỏ tới con trỏ là một loại dữ liệu trong ngôn ngữ lập trình cho phép bạn lưu trữ địa chỉ của một con trỏ. Con trỏ tới con trỏ cung cấp một cấp độ trỏ mới, cho phép bạn thay đổi giá trị của con trỏ gốc. Cấp độ này có thể hữu ích trong nhiều tình huống, đặc biệt là khi bạn làm việc với các hàm cần thay đổi giá trị của con trỏ.  
+ví dụ  
+```  
+#include <stdio.h>
+
+int main() {
+    int num = 10;
+    int *ptr1 = &num;  // Pointer to integer
+    int **ptr2 = &ptr1;  // Pointer to pointer
+
+    printf("Value of num: %d\n", **ptr2); // Output: 10
+
+    // Change the value of num through pointer to pointer
+    **ptr2 = 20;
+    printf("Value of num after modification: %d\n", **ptr2); // Output: 20
+
+    return 0;
+}
+```  
+**G. NULL Pointer**  
+Một con trỏ null là một con trỏ không trỏ tới bất kỳ đối tượng hoặc khu vực bộ nhớ cụ thể nào. Trong ngôn ngữ lập trình C, một con trỏ có thể được gán giá trị NULL để biểu diễn trạng thái null.  
+Việc sử dụng một con trỏ null thường hữu ích để kiểm tra xem một con trỏ đã được khởi tạo và trỏ tới một khu vực bộ nhớ hợp lệ hay không. Tránh việc giải tham chiếu (sử dụng giá trị mà con trỏ trỏ tới) một con trỏ null là quan trọng để tránh lỗi trong chương trình.  
+ví dụ  
+```  
+#include <stdio.h>
+
+int main() {
+    int *ptr = NULL; // Initialize a pointer to NULL
+
+    // Attempt to dereference the null pointer (This will result in a segmentation fault)
+    // int value = *ptr; // Uncommenting this line will result in a segmentation fault
+
+    // Check if the pointer is null before dereferencing
+    if (ptr != NULL) {
+        int value = *ptr;
+        printf("Value: %d\n", value);
+    } else {
+        printf("Pointer is null, cannot dereference.\n");
+    }
+
+    return 0;
+}
+```
+
+
